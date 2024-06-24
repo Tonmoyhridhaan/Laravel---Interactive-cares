@@ -1,0 +1,7 @@
+Salary
+Gift
+Investment
+Food
+Transport
+Entertainment
+Others
