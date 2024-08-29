@@ -9,4 +9,5 @@ return array(
     'f89152891f56cdcbf5cab65eb64b21d2' => $baseDir . '/helpers/helper.php',
     'a261b66f4fe7b3b38bec2d19e21b3873' => $baseDir . '/customer/Customer.php',
     'fd8a53ae2dcc044d6aacfa376a0d9229' => $baseDir . '/customer/Transaction.php',
+    'c366a718149505ca93821075a9f3db85' => $baseDir . '/db/connection.php',
 );

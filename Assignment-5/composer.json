@@ -3,6 +3,6 @@
         "psr-4": {
             
         },
-        "files": ["helpers/helper.php","customer/Customer.php","customer/Transaction.php"]
+        "files": ["helpers/helper.php","customer/Customer.php","customer/Transaction.php","db/connection.php"]
     }
 }
