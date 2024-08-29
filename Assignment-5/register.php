@@ -33,28 +33,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-      $file = fopen("db/customers.txt", "a");
-      if ($file) {
-          $user_data = "Name: $name, Email: $email, Password: $password\n";
-          
-          fwrite($file, $user_data);
-          fclose($file);
-          $file = fopen("db/balance.txt", "a");
-          if ($file) {
-              $user_data = "Email: $email, Balance: 0.00\n";
-              
-              fwrite($file, $user_data);
-              fclose($file);
-          }
+      if(config("storage.driver")=="file"){
+        $file = fopen("db/customers.txt", "a");
+        if ($file) {
+            $user_data = "Name: $name, Email: $email, Password: $password\n";
+            
+            fwrite($file, $user_data);
+            fclose($file);
+            $file = fopen("db/balance.txt", "a");
+            if ($file) {
+                $user_data = "Email: $email, Balance: 0.00\n";
+                
+                fwrite($file, $user_data);
+                fclose($file);
+            }
+            flash('success', 'You have successfully registered. Please log in to continue');
+
+            header('Location: login.php');
+            exit;
+        }
+        else {
+            $errors['auth_error'] = 'An error occurred. Please try again';
+        }
+      }
+      if(config("storage.driver")=="mysql"){
+        echo "here";
+        if(insertCustomerDB($name,$email,$password)){
           flash('success', 'You have successfully registered. Please log in to continue');
 
           header('Location: login.php');
-          exit;
-      }
-      else {
+        }
+        else{
           $errors['auth_error'] = 'An error occurred. Please try again';
+        }
       }
-
       
     }
 }

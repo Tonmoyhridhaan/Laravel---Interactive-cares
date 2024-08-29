@@ -5,9 +5,18 @@ class Transaction {
     private $customersFile = '../db/customers.txt';
 
     public function recordTransfer($fromEmail, $toEmail, $amount) {
-        $dateTime = date('Y-m-d H:i:s');
-        $record = "$dateTime, From: $fromEmail, To: $toEmail, Amount: " . number_format($amount, 2, '.', '') . PHP_EOL;
-        file_put_contents($this->transfersFile, $record, FILE_APPEND);
+        if(config("storage.driver")=="file"){  
+            $dateTime = date('Y-m-d H:i:s');
+            $record = "$dateTime, From: $fromEmail, To: $toEmail, Amount: " . number_format($amount, 2, '.', '') . PHP_EOL;
+            file_put_contents($this->transfersFile, $record, FILE_APPEND);
+        }
+
+        if(config("storage.driver")=="mysql"){
+            $dateTime = date('Y-m-d H:i:s');
+            $sql = "INSERT INTO transfers (dateTime, from, to_email, amount) VALUES ('$dateTime','$fromEmail', '$toEmail', $amount)";
+            include '../db/connection.php';
+            $result = mysqli_query($con, $sql);
+        }
     }
 
     public function getTransactionsByEmail($email) {

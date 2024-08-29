@@ -24,11 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     if (empty($errors)) {
+      if(config("storage.driver")=="file"){
+      
         $file = fopen("db/customers.txt", "r");
         $is_authenticated = false;
-        
         if ($file) {
-
             while (($line = fgets($file)) !== false) {
                 list($name, $stored_email, $stored_password) = explode(", ", trim($line));
                 
@@ -49,7 +49,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }else{
             $errors['auth_error'] = 'An error occurred. Please try again';
         }
+      }  
+      if(config("storage.driver")=="mysql"){
+        $sql = "SELECT * FROM customers WHERE email='$email'";
+        echo $sql;
+        include 'db/connection.php';
+        $result = mysqli_query($con, $sql);
+        $row = mysqli_fetch_array($result);
+        if($row['email'] == $email && password_verify($password, $row['password'])) {
+            $_SESSION['email'] = $email;
+            header('Location: customer/dashboard.php');
+            exit;
+        }
+        else {
+            $errors['auth_error'] = 'Invalid email or password';
+        }
         
+      }
     }
     
 }
