@@ -39,3 +39,7 @@ cd bangubank
 1. Copy-paste the pages and directories in your own php project
 2. No need to install tailwindcss and alpinejs, as the CDN is already included
 3. seperate each files and components based on your own development technique
+
+4. Use the database from db/interactivecares_assignment-5.sql and import it to your localhost
+5. Change the storage types from config/storage.php
+6. email = "tonmoy@gmail.com", password = "12345678" (this password is same for all customers)

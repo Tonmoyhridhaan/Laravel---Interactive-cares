@@ -43,28 +43,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
 
       $name = $firstname . ' ' . $lastname;
-      $user_data = "Name: $name, Email: $email, Password: $password\n";
-      echo $user_data;
-      $file = fopen("../db/customers.txt", "a");
-      if ($file) {
-          $user_data = "Name: $name, Email: $email, Password: $password\n";
-          
-          fwrite($file, $user_data);
-          fclose($file);
-          flash('success', 'Customer have successfully created.');
-          $file = fopen("../db/balance.txt", "a");
-          if ($file) {
-              $user_data = "Email: $email, Balance: 0.00\n";
-              
-              fwrite($file, $user_data);
-              fclose($file);
-          }
-          header('Location: customers.php');
-          exit;
-          
-      }
+      if(config("storage.driver")=="file"){
+        $file = fopen("db/customers.txt", "a");
+        if ($file) {
+            $user_data = "Name: $name, Email: $email, Password: $password\n";
+            
+            fwrite($file, $user_data);
+            fclose($file);
+            $file = fopen("db/balance.txt", "a");
+            if ($file) {
+                $user_data = "Email: $email, Balance: 0.00\n";
+                
+                fwrite($file, $user_data);
+                fclose($file);
+            }
+            flash('success', 'Customer have successfully created.');
+            header('Location: customers.php');
+            exit;
+        }
         else {
+            $errors['auth_error'] = 'An error occurred. Please try again';
+        }
+      }
+      if(config("storage.driver")=="mysql"){
+        echo "here";
+        if(insertCustomerDB($name,$email,$password)){
+          flash('success', 'Customer have successfully created.');
+          header('Location: customers.php');
+        }
+        else{
           $errors['auth_error'] = 'An error occurred. Please try again';
+        }
       }
     }
 }

@@ -10,6 +10,7 @@
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if(config("storage.driver")=="file"){
     $fromEmail = $email;
     $toEmail = $_POST['email'];
     $amount = (float) $_POST['amount'];
@@ -34,6 +35,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       $transfer['failed']= "Insufficient funds for transfer!";
     }
+  }
+
+  if(config("storage.driver")=="mysql"){
+    
+    $fromEmail = $email;
+    $toEmail = $_POST['email'];
+    $amount = (float) $_POST['amount'];
+    $fromCustomer = new Customer($fromEmail);
+    $toCustomer = new Customer($toEmail);
+    if($fromEmail===$toEmail){
+        $transfer['usererror'] = "Transfer failed: Can't transfer to self account.";
+    }
+    else if (!$toCustomer->accountExists()) {
+        $transfer['usererror'] = "Transfer failed: The recipient does not have an account.";
+        
+    }
+    else if ($fromCustomer->getBalance() >= $amount) {
+        $fromCustomer->updateBalance(-$amount);
+        $toCustomer->updateBalance($amount);
+        $transaction = new Transaction();
+        $transaction->recordTransfer($fromEmail, $toEmail, $amount);
+        $transfer['success'] = "Transfer successful! Your have transfered $" . number_format($amount, 2, '.', '')." to ".$toEmail;
+    } else {
+      $transfer['failed']= "Insufficient funds for transfer!";
+    }
+  }
 }
 
 ?>
