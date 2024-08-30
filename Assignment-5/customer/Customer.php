@@ -1,5 +1,5 @@
 <?php
-require "../vendor/autoload.php";
+//require "../vendor/autoload.php";
 class Customer {
     private $email;
     private $balanceFile = '../db/balance.txt';
@@ -104,7 +104,7 @@ class Customer {
             $row = mysqli_fetch_array($result);
             return $row['name'];
         }
-        
+
         
     }
 }

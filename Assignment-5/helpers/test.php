@@ -1,7 +1,4 @@
 <?php
-    include '../db/connection.php';
-    if($con){
-        echo "working";
-    }
-
+    require "../vendor/autoload.php";
+    getName('nahian@gmail.com');
 ?>

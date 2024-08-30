@@ -36,10 +36,11 @@ function getName($useremail){
     }
 
     if(config("storage.driver")=="mysql"){
-        
         $sql = "SELECT * FROM customers WHERE email='$useremail'";
         include '../db/connection.php';
+        
         $result = mysqli_query($con, $sql);
+        
         $row = mysqli_fetch_array($result);
         return $row['name'];
     }
@@ -95,7 +96,7 @@ function config($key) {
 }
 function insertCustomerDB($name, $email, $password){
     include 'db/connection.php';
-    
+    include '../db/connection.php';
     $sql = "INSERT INTO customers (name, email, password) VALUES ('$name', '$email', '$password')";
     
     if (mysqli_query($con, $sql)) {
