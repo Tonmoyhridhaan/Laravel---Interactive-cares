@@ -1,0 +1,41 @@
+[
+      {
+        "id": 1,
+        "title": "Inventory Management System",
+        "type": "Final Year Project",
+        "description": "This project was focused on creating a robust inventory management system that allows businesses to track and manage their stock levels efficiently.",
+        "features": [
+          "Real-time inventory tracking",
+          "Automated stock alerts",
+          "Detailed reporting and analytics"
+        ],
+        "link": "inventory-management-system.html"
+      },
+      {
+        "id": 2,
+        "title": "Underwater Pollution Detection",
+        "type": "Research Project",
+        "description": "An AI-powered system designed to detect and classify various types of underwater pollutants using image processing and machine learning techniques.",
+        "features": [
+          "High-accuracy pollutant detection",
+          "Real-time analysis",
+          "Support for multiple underwater environments"
+        ],
+        "link": "underwater-pollution-detection.html"
+      },
+      {
+        "id": 3,
+        "title": "E-commerce Website Development",
+        "type": "Client Project",
+        "description": "This project involved designing and developing a full-featured e-commerce platform with an admin panel for the client Sydeny4x4. The platform includes custom functionalities, social media integration, and a user-friendly interface to enhance the shopping experience.",
+        "features": [
+          "Custom admin panel for managing products, orders, and customers",
+          "Seamless social media integration",
+          "Responsive design for mobile and desktop users",
+          "SEO-optimized for better search engine ranking"
+        ],
+        "link": "ecommerce-website.html"
+      }
+    ]
+  
+  
