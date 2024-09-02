@@ -25,8 +25,15 @@ Before setting up the Laravel project, ensure that you have the following instal
 
    ```bash
    composer update
+3. **Change the storage type**
 
-2. **Run The server**
+   In .env file change the FILESYSTEM_DISK=local
+   
+   to
+
+   FILESYSTEM_DISK=portfolio
+
+4. **Run The server**
 
    Then you have to run the server by using the following command.
 
