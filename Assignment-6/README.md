@@ -17,7 +17,7 @@ Before setting up the Laravel project, ensure that you have the following instal
    Begin by cloning the repository to your local machine using Git.
 
    ```bash
-   git clone https://github.com/Tonmoyhridhaan/Laravel---Interactive-cares/tree/main/Assignment-5
+   git clone https://github.com/Tonmoyhridhaan/Laravel---Interactive-cares/tree/main/Assignment-6
 
 2. **Update the composer**
 
