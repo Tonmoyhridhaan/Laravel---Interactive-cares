@@ -30,6 +30,5 @@ Route::middleware([isLoggedIn::class])->group(function () {
     Route::post('/edit-profile', [UserController::class, 'editProfile']);
 
     Route::get('/logout', [UserController::class, 'logout']);
-    
 
 });
