@@ -62,7 +62,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="h-8 w-8 rounded-full"
-                      src="https://avatars.githubusercontent.com/u/831997"
+                      src="{{ asset('storage/' . session('user')->image) }}"
                       alt="Ahmed Shamim Hasan Shaon" />
                   </button>
                 </div>
