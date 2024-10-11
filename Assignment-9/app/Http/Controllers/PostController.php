@@ -21,22 +21,21 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        dd($request);
-    
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public'); 
         }
+        
+        $post = new Post();
+        $post->content = $request->input('content');
+        $post->user_id = session('user')->id;
+        //echo $imagePath;
+        $post->image = $imagePath;
+        $post->save(); 
 
-        Post::create([
-            'content' => $request->content,
-            'user_id' => session('user')->id, 
-            'image' => $imagePath, 
-        ]);
-    
         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
     }
     public function show($id)

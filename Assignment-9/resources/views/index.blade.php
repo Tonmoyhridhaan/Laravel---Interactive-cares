@@ -62,7 +62,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="h-8 w-8 rounded-full"
-                      src="https://avatars.githubusercontent.com/u/831997"
+                      src="{{ asset('storage/' . session('user')->image) }}"
                       alt="Ahmed Shamim Hasan Shaon" />
                   </button>
                 </div>
@@ -155,38 +155,29 @@
       <!-- Barta Create Post Card -->
       <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data" class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3">
         @csrf
-        <!-- Create Post Card Top -->
         <div>
-          <div class="flex items-start /space-x-3/">
-            <!-- Content -->
-            <div class="text-gray-700 font-normal w-full">
-              <textarea
-                class="block w-full p-2 pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
-                name="content"
-                rows="2"
-                placeholder="What's going on, {{ session('user')->firstName ?? 'Guest' }}?"></textarea>
+            <div class="flex items-start">
+                <!-- Content -->
+                <div class="text-gray-700 font-normal w-full">
+                    <textarea class="block w-full p-2 pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0" name="content" rows="2" placeholder="What's going on, {{ session('user')->firstName ?? 'Guest' }}?"></textarea>
+                </div>
             </div>
-          </div>
+        </div>
+
+        <!-- Image Upload Input -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Upload Image</label>
+            <input type="file" name="image" accept="image/*" class="mt-1 block w-full">
         </div>
 
         <div>
-        <label class="block text-sm font-medium text-gray-700">Upload Image</label>
-        <input type="file" name="image"  class="mt-1 block w-full">
-      </div>
-
-        <!-- Create Post Card Bottom -->
-        <div>
-          <!-- Card Bottom Action Buttons -->
-          <div class="flex items-center justify-end">
-            <div>
-              <!-- Post Button -->
-              <button type="submit" class="-m-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white">
+            <!-- Post Button -->
+            <button type="submit" class="-m-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white">
                 Post
-              </button>
-            </div>
-          </div>
+            </button>
         </div>
-      </form>
+    </form>
+
       <!-- /Barta Create Post Card -->
 
       <!-- Newsfeed -->
@@ -259,6 +250,13 @@
             <div class="py-4 text-gray-700 font-normal">
               <p>{{ $post->content }}</p>
             </div>
+
+            <!-- Show the image after the content with a fixed size. -->
+            @if ($post->image)
+              <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="w-full h-64 object-cover">
+            @endif
+            <!-- Show the image after the content with a fixed size. -->
+
 
             <!-- Date Created & View Stat -->
             <div class="flex items-center gap-2 text-gray-500 text-xs my-2">

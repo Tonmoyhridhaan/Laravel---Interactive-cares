@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -59,31 +61,46 @@ class UserController extends Controller
         }
     }
 
-    public function editProfile(Request $request){
-        //dd($request->all());
-        //dd(session('user')->id);
-        //dd($request);
+    public function editProfile(Request $request)
+    {
+        // Validate the request data including the avatar image
+        $request->validate([
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'bio' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
         $id = session('user')->id;
-        $firstName = $request->firstName;
-        $lastName = $request->lastName;
-        $email = $request->email;
-        $bio = $request->bio;
-        //echo $bio;
-        $user = DB::table('users')->where('id', $id)->update([
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'email' => $email,
-            'bio' => $bio,
+    
+        // Handle image upload if there's an image
+        $avatarPath = session('user')->image; // Default to existing avatar path
+        if ($request->hasFile('image')) {
+            if ($avatarPath) {
+                Storage::delete('public/' . $avatarPath);
+            }
+            // Store the new avatar in the 'public/avatars' directory
+            $avatarPath = $request->file('image')->store('images', 'public');
+        }
+    
+        // Update the user data
+        DB::table('users')->where('id', $id)->update([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
+            'bio' => $request->bio,
+            'image' => $avatarPath, // Store the new avatar path
             'updated_at' => now()
         ]);
-        if($user){
-            $user = DB::table('users')->where('id', $id)->first();
-            $request->session()->put('user', $user);
-            return redirect('/profile')->with('success', 'Succesfully updated');
-        }
-        
-
+    
+        // Refresh the session with updated user data
+        $user = DB::table('users')->where('id', $id)->first();
+        $request->session()->put('user', $user);
+    
+        return redirect('/profile')->with('success', 'Profile updated successfully!');
     }
+    
     public function logout(Request $request){
         $request->session()->forget('user');
         return redirect('/login');
