@@ -7,15 +7,33 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        
-        $posts = Post::with('user')->latest()->get();
-        $currentUser = session('user'); 
-        //echo $currentUser->id ;
-        
+        // Get the search query from the request
+        $query = $request->input('search');
+
+        // Fetch posts with a search filter if a search query is provided
+        $posts = Post::with('user')
+            ->when($query, function ($q) use ($query) {
+                $q->whereHas('user', function ($userQuery) use ($query) {
+                    $userQuery->where('firstName', 'like', "%{$query}%")
+                        ->orWhere('lastName', 'like', "%{$query}%")
+                        ->orWhere('userName', 'like', "%{$query}%")
+                        ->orWhere('email', 'like', "%{$query}%");
+                });
+            })
+            ->latest()
+            ->get();
+
+        // Get the current user from the session
+        $currentUser = session('user');
+
+        // Return the view with the posts and current user
         return view('index', compact('posts', 'currentUser'));
     }
+
+    
+
 
     public function store(Request $request)
     {

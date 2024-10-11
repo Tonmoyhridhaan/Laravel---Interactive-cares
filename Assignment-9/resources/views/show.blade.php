@@ -162,8 +162,15 @@
                     </div>
                 </div>
             </header>
+            
+            <!-- Post Content -->
             <div class="py-4 text-gray-700 font-normal">
                 <p>{{ $post->content }}</p>
+                
+                <!-- Check if the post has an image and display it -->
+                @if ($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="mt-4 max-w-full h-auto rounded-lg shadow">
+                @endif
             </div>
         </article>
 
