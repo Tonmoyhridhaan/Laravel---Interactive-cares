@@ -1,46 +1,30 @@
-# Laravel Project Setup
+URL Shortener API
+A simple RESTful API built with Laravel that provides URL shortening services. Users can register, log in, shorten URLs, and track the visit count of each shortened URL.
 
-## Installation Instructions
+Features
+User Registration and Authentication: Secure user registration and login with API token-based authentication.
+URL Shortening: Users can shorten long URLs and receive a unique short URL.
+Visit Tracking: The API keeps a count of how many times each short URL is visited.
+User-Specific URL Listing: Users can view all URLs they've shortened along with their visit counts.
+URL Redirection: Short URLs redirect users to the original long URLs.
+Technologies Used
+Framework: Laravel 11
+Database: SQLite
 
-### Prerequisites
 
-Before setting up the Laravel project, ensure that you have the following installed on your local machine:
+List of API URLs
+Register a User
 
-- **PHP (>=8.0)**
-- **Composer**
-- **Git**
+URL: POST /api/register
+Log In
 
-### Steps to Download and Run the Laravel Project
+URL: POST /api/login
+Shorten a URL
 
-1. **Clone the Repository:**
+URL: POST /api/shorten
+List All URLs Created by the User
 
-   Begin by cloning the repository to your local machine using Git.
+URL: GET /api/urls
+URL Redirection
 
-   ```bash
-   git clone https://github.com/Tonmoyhridhaan/Laravel---Interactive-cares/tree/main/Assignment-8
-
-2. **Update the composer**
-
-   Then you have to update the composer.
-
-   ```bash
-   composer update
-3. **Change the storage type**
-
-   In .env file change the FILESYSTEM_DISK=local
-   
-   to
-
-   FILESYSTEM_DISK=public
-
-4. **Run The server**
-
-   Then you have to run the server by using the following command.
-
-   ```bash
-   php artisan serve
-
-The project will be live at:    http://127.0.0.1:8000/
-
-User: 
-email: tonmoy@gmail.com password: 12345678
+URL Format: GET /{short_url}
